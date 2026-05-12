@@ -92,18 +92,43 @@ df -h
 
 - To extend LVM, first add storage to the volume group using pvcreate and vgextend, then increase logical volume size with lvextend, and finally resize the filesystem using resize2fs for ext4 or xfs_growfs for XFS.
 
-- These are Linux LVM (Logical Volume Manager) commands for expanding storage. Here's what each does:
-- The Big Picture: You're adding a new disk and growing a filesystem in 4 steps.
-Step 1 — pvcreate /dev/sdb
-Marks the disk /dev/sdb as a Physical Volume (PV) so LVM can use it. Think of it as "registering" the new disk with LVM.
-Step 2 — vgextend my_vg /dev/sdb
-Adds that new disk into an existing Volume Group named my_vg. A Volume Group is like a "pool" of storage made from one or more disks.
-Step 3 — lvextend -L +10G /dev/my_vg/my_lv
-Grows the Logical Volume my_lv by 10GB, pulling that space from the Volume Group pool. A Logical Volume is the virtual partition your OS actually uses.
-Step 4 — Choose ONE of these depending on your filesystem:
-resize2fs /dev/my_vg/my_lv → for ext4/ext2/ext3 filesystems
-xfs_growfs /mount/point → for XFS filesystems
+hese are *Linux LVM (Logical Volume Manager)* commands for expanding storage. Here's what each does:
+
+---
+
+*The Big Picture:* You're adding a new disk and growing a filesystem in 4 steps.
+
+---
+
+*Step 1 — pvcreate /dev/sdb*
+Marks the disk /dev/sdb as a *Physical Volume* (PV) so LVM can use it. Think of it as "registering" the new disk with LVM.
+
+---
+
+*Step 2 — vgextend my_vg /dev/sdb*
+Adds that new disk into an existing *Volume Group* named my_vg. A Volume Group is like a "pool" of storage made from one or more disks.
+
+---
+
+*Step 3 — lvextend -L +10G /dev/my_vg/my_lv*
+Grows the *Logical Volume* my_lv by 10GB, pulling that space from the Volume Group pool. A Logical Volume is the virtual partition your OS actually uses.
+
+---
+
+*Step 4 — Choose ONE of these depending on your filesystem:*
+
+- *resize2fs /dev/my_vg/my_lv* → for *ext4/ext2/ext3* filesystems
+- *xfs_growfs /mount/point* → for *XFS* filesystems
+
 Both tell the filesystem "hey, your partition just got bigger, use the new space."
+
+---
+
+*Simple analogy:*
+> Imagine a water tank (my_vg). You add a new barrel (/dev/sdb) to the tank, then expand the pipe (my_lv) drawing from it, then tell the faucet (resize2fs/xfs_growfs) it can now pour more water.
+
+---
+
 
 ---
 
@@ -117,41 +142,60 @@ Both tell the filesystem "hey, your partition just got bigger, use the new space
 > `-l` = relative/extent-based | `-L` = size-based
 
 
--l vs -L in simple terms
--L (uppercase) — "Give me exactly this much"
-You specify a fixed size like GB, MB, TB.
-Bash
-"Add exactly 10 Gigabytes to this volume."
-Like telling a waiter: "Give me exactly 2 cups of water."
--l (lowercase) — "Give me a percentage or share"
-You specify in extents (LVM's internal chunks, usually 4MB each) or use % shortcuts.
-Bash
-"Add all remaining free space in the Volume Group to this volume."
-Like telling a waiter: "Fill my glass to the top with whatever's left."
-Common -l shortcuts
-Command
-Meaning
--l +100%FREE
-Use ALL remaining free space
--l +50%FREE
-Use HALF the remaining free space
--l +100%PVS
-Use all space on a specific physical disk
-When to use which?
-Situation
-Use
-You know exactly how much you need
--L +10G
-You want to use up ALL free space
--l +100%FREE
-You're calculating manually
--L is easier
-You don't care about exact size, just use what's there
--l is easier
-Bottom line:
--L = exact size (you decide the number)
--l = relative share (LVM does the math for you)
+## -l vs -L in simple terms
 
+---
+
+### -L (uppercase) — "Give me exactly this much"
+
+You specify a *fixed size* like GB, MB, TB.
+
+bash
+lvextend -L +10G /dev/my_vg/my_lv
+
+> "Add exactly *10 Gigabytes* to this volume."
+
+Like telling a waiter: *"Give me exactly 2 cups of water."*
+
+---
+
+### -l (lowercase) — "Give me a percentage or share"
+
+You specify in *extents* (LVM's internal chunks, usually 4MB each) or use % shortcuts.
+
+bash
+lvextend -l +100%FREE /dev/my_vg/my_lv
+
+> "Add *all remaining free space* in the Volume Group to this volume."
+
+Like telling a waiter: *"Fill my glass to the top with whatever's left."*
+
+---
+
+### Common -l shortcuts
+
+| Command | Meaning |
+|--------|---------|
+| -l +100%FREE | Use ALL remaining free space |
+| -l +50%FREE | Use HALF the remaining free space |
+| -l +100%PVS | Use all space on a specific physical disk |
+
+---
+
+### When to use which?
+
+| Situation | Use |
+|-----------|-----|
+| You know exactly how much you need | -L +10G |
+| You want to use up ALL free space | -l +100%FREE |
+| You're calculating manually | -L is easier |
+| You don't care about exact size, just use what's there | -l is easier |
+
+---
+
+*Bottom line:*
+- -L = *exact size* (you decide the number)
+- -l = *relative share* (LVM does the math for you)
 ---
 
 ## 7. Simple Ansible Playbook — Install & Start Nginx
