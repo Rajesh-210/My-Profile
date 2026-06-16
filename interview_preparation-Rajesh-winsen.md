@@ -36,6 +36,7 @@ Imagine your app is running and your primary RDS instance crashes. Without Multi
 - Covers AZ failures, hardware failures, patching/maintenance
 
 **Interview Tip:** Say — *"In my project, we enabled Multi-AZ on our production RDS to ensure zero data loss during failover. It also helped during maintenance windows because AWS handles patching with automatic failover."*
+- "We use RDS Multi-AZ for high availability. If primary DB fails, the standby takes over automatically. I used this in my AWS infra to ensure our production DB never becomes a single point of failure."
 
 ---
 
