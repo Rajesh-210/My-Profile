@@ -384,11 +384,11 @@ You use the Azure CLI to trigger a Kubernetes version upgrade. Always upgrade th
 ># Step 1: Check what versions are available
 az aks get-upgrades --name myCluster --resource-group myRG
 
-# Step 2: Upgrade control plane FIRST
+># Step 2: Upgrade control plane FIRST
 az aks upgrade --name myCluster --resource-group myRG \
   --kubernetes-version 1.28 --control-plane-only
 
-# Step 3: Then upgrade worker nodes
+># Step 3: Then upgrade worker nodes
 az aks nodepool upgrade --cluster-name myCluster \
   --resource-group myRG --name nodepool1 --kubernetes-version 1.28
 > 
