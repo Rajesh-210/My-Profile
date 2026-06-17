@@ -313,14 +313,14 @@ First Kubernetes tries to fix it automatically. If it can't, you investigate the
 > 
 >Then I check the logs with kubectl logs and also kubectl logs with the --previous flag to see logs from the crashed container before it restarted.
 
-># Step 1: Check pod status
-kubectl get pods
+> Step 1: Check pod status
+# kubectl get pods
 
-># Step 2: Describe the pod to see events
-kubectl describe pod <pod-name>
+> Step 2: Describe the pod to see events
+# kubectl describe pod <pod-name>
 
-># Step 3: Check the logs of the crashed container
-kubectl logs <pod-name> --previous
+> Step 3: Check the logs of the crashed container
+# kubectl logs <pod-name> --previous
 
 ># Common causes:
   - Application error at startup
