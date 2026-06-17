@@ -146,19 +146,19 @@ In Terraform, each module manages a specific AWS resource. To change something, 
 *How to say it in the interview:*
 
 > "In Terraform, we organize code into modules — each module is responsible for a specific AWS resource or group of resources.
-> terraform/
->├── modules/
->│   ├── vpc/           ← Modify for networking (subnets, route tables, NAT)
->│   ├── ec2/           ← Modify for servers (instance type, AMI, count)
->|   ├── iam/           ← Modify for permissions (roles, policies)
->│   ├── eks/           ← Modify for Kubernetes cluster
->│   ├── s3/            ← Modify for storage buckets
->│   └── security_groups/ ← Modify for firewall rules
->├── main.tf            ← Calls all modules
->├── variables.tf       ← Input values
->├── outputs.tf         ← Output values
->├── terraform.tfvars   ← Environment-specific values
->└── backend.tf         ← Remote state config (S3 + DynamoDB)
+>> terraform/
+├── modules/
+│   ├── vpc/           ← Modify for networking (subnets, route tables, NAT)
+│   ├── ec2/           ← Modify for servers (instance type, AMI, count)
+│   ├── iam/           ← Modify for permissions (roles, policies)
+│   ├── eks/           ← Modify for Kubernetes cluster
+│   ├── s3/            ← Modify for storage buckets
+│   └── security_groups/ ← Modify for firewall rules
+├── main.tf            ← Calls all modules
+├── variables.tf       ← Input values
+├── outputs.tf         ← Output values
+├── terraform.tfvars   ← Environment-specific values
+└── backend.tf         ← Remote state config (S3 + DynamoDB)
 > 
 >So the answer depends on what I want to modify. If I want to change the VPC settings — like adding a subnet or changing a CIDR block — I go to the VPC module. If I want to change EC2 instance type, I go to the EC2 module. For IAM roles and permissions, I go to the IAM module.
 > 
