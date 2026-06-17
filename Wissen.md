@@ -359,21 +359,11 @@ Use Ansible to run patching commands across many servers at once with a single c
 
 ### 19. What is Azure Policy and Azure RBAC?
 
-*What it means (simple):*
-RBAC controls who can do things. Azure Policy controls what is allowed to exist.
-
-*How to say it in the interview:*
-
-> "These are two different but complementary security features in Azure.
-> 
->Azure RBAC, which stands for Role-Based Access Control, controls who can do what on Azure resources. You assign roles to users or groups. For example, a developer might have the Contributor role which lets them create and manage resources, but not manage permissions. A junior team member might only have the Reader role to view resources without changing anything.
-> 
->Azure Policy is different — it enforces compliance rules across your Azure environment. For example, you can set a policy that says all resources must have a specific tag, or that virtual machines can only be created in certain regions, or that storage accounts must always have encryption enabled. If someone tries to create a resource that violates the policy, Azure either blocks it or flags it as non-compliant.
-> 
->The key difference is: RBAC controls access — who can perform actions. Azure Policy controls compliance — what kind of resources are allowed to exist.
-> 
->Think of it like this — RBAC is the lock on the door, Azure Policy is the building code that says what you can build inside."
-
+"Azure RBAC and Azure Policy are two different but complementary security features in Azure.
+Azure RBAC stands for Role-Based Access Control. It controls who can do what on Azure resources. For example, in my projects I assign the Contributor role to developers so they can create and manage resources, but not manage permissions. Junior team members get the Reader role so they can only view resources without making any changes. The Owner role is reserved for leads or admins who need full control.
+Azure Policy is different — it enforces compliance rules across the entire Azure environment. For example, I've used policies to ensure all resources must have specific tags for cost tracking, virtual machines can only be created in certain regions, and storage accounts must always have encryption enabled. If someone tries to create a resource that violates the policy, Azure either blocks it automatically or flags it as non-compliant.
+The key difference I always mention is — RBAC controls access, meaning who can perform actions. Azure Policy controls compliance, meaning what kind of resources are allowed to exist.
+A simple way to think about it — RBAC is the lock on the door, Azure Policy is the building code that says what you're allowed to build inside."
 ---
 
 ### 20. How Do You Update the AKS Master Version?
@@ -386,6 +376,17 @@ You use the Azure CLI to trigger a Kubernetes version upgrade. Always upgrade th
 > "Upgrading the AKS master version is done through the Azure CLI. The process has two steps — first upgrade the control plane, then upgrade the node pools.
 > 
 >Before upgrading, I run az aks get-upgrades to check which versions are available for the cluster. Then I upgrade the control plane first using az aks upgrade with the --control-plane-only flag and specifying the new Kubernetes version. After the control plane upgrade is complete, I upgrade each node pool separately using az aks nodepool upgrade.
+
+># Step 1: Check what versions are available
+az aks get-upgrades --name myCluster --resource-group myRG
+
+# Step 2: Upgrade control plane FIRST
+az aks upgrade --name myCluster --resource-group myRG \
+  --kubernetes-version 1.28 --control-plane-only
+
+# Step 3: Then upgrade worker nodes
+az aks nodepool upgrade --cluster-name myCluster \
+  --resource-group myRG --name nodepool1 --kubernetes-version 1.28
 > 
 >A few important rules to follow: only upgrade one minor version at a time — you can't jump from 1.27 to 1.29 directly. Always test in a staging cluster before touching production. And always check if any of your workloads use deprecated Kubernetes APIs that might break after the upgrade.
 > 
