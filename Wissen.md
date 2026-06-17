@@ -312,7 +312,22 @@ First Kubernetes tries to fix it automatically. If it can't, you investigate the
 >My first step is to check the pod status with kubectl get pods to see what state it's in. Then I run kubectl describe pod with the pod name to see the events — it usually tells me why it failed, like an image pull error or a resource issue.
 > 
 >Then I check the logs with kubectl logs and also kubectl logs with the --previous flag to see logs from the crashed container before it restarted.
-> 
+
+># Step 1: Check pod status
+kubectl get pods
+
+># Step 2: Describe the pod to see events
+kubectl describe pod <pod-name>
+
+># Step 3: Check the logs of the crashed container
+kubectl logs <pod-name> --previous
+
+># Common causes:
+  - Application error at startup
+  - Wrong environment variable or missing config
+  - Image pull error
+  - Resource limits too low (OOMKilled)
+
 >Based on what I find — if the app is crashing, I fix the application code and redeploy. If it's out of memory, I increase the memory limits in the pod spec. If it's an image pull error, I fix the image tag or check ECR permissions. If the node doesn't have enough resources, I scale the node group.
 > 
 >In my project, I also had Prometheus and Grafana alerting set up, so I would get notified about pod failures before users even noticed."
