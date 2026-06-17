@@ -360,10 +360,14 @@ Use Ansible to run patching commands across many servers at once with a single c
 ### 19. What is Azure Policy and Azure RBAC?
 
 "Azure RBAC and Azure Policy are two different but complementary security features in Azure.
-Azure RBAC stands for Role-Based Access Control. It controls who can do what on Azure resources. For example, in my projects I assign the Contributor role to developers so they can create and manage resources, but not manage permissions. Junior team members get the Reader role so they can only view resources without making any changes. The Owner role is reserved for leads or admins who need full control.
-Azure Policy is different — it enforces compliance rules across the entire Azure environment. For example, I've used policies to ensure all resources must have specific tags for cost tracking, virtual machines can only be created in certain regions, and storage accounts must always have encryption enabled. If someone tries to create a resource that violates the policy, Azure either blocks it automatically or flags it as non-compliant.
-The key difference I always mention is — RBAC controls access, meaning who can perform actions. Azure Policy controls compliance, meaning what kind of resources are allowed to exist.
-A simple way to think about it — RBAC is the lock on the door, Azure Policy is the building code that says what you're allowed to build inside."
+
+>Azure RBAC stands for Role-Based Access Control. It controls who can do what on Azure resources. For example, in my projects I assign the Contributor role to developers so they can create and manage resources, but not manage permissions. Junior team members get the Reader role so they can only view resources without making any changes. The Owner role is reserved for leads or admins who need full control.
+
+>Azure Policy is different — it enforces compliance rules across the entire Azure environment. For example, I've used policies to ensure all resources must have specific tags for cost tracking, virtual machines can only be created in certain regions, and storage accounts must always have encryption enabled. If someone tries to create a resource that violates the policy, Azure either blocks it automatically or flags it as non-compliant.
+
+>The key difference I always mention is — RBAC controls access, meaning who can perform actions. Azure Policy controls compliance, meaning what kind of resources are allowed to exist.
+
+>A simple way to think about it — RBAC is the lock on the door, Azure Policy is the building code that says what you're allowed to build inside."
 ---
 
 ### 20. How Do You Update the AKS Master Version?
